@@ -1,15 +1,15 @@
 package core
 
 import (
-	"github.com/christopherfranklin/gsql/compiler"
+	"github.com/marianogappa/sqlparser/query"
 	"github.com/rs/zerolog/log"
 )
 
-func ExecuteStatement(statement compiler.Statement) {
-	switch statement.StatementType {
-	case compiler.INSERT:
+func ExecuteStatement(q query.Query) {
+	switch q.Type {
+	case query.Insert:
 		log.Info().Msg("This is where we would do an insert.")
-	case compiler.SELECT:
+	case query.Select:
 		log.Info().Msg("This is where we would do a select.")
 	}
 }

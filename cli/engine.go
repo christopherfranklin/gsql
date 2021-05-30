@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	prompt "github.com/c-bata/go-prompt"
-	"github.com/christopherfranklin/gsql/compiler"
 	"github.com/christopherfranklin/gsql/core"
+	"github.com/marianogappa/sqlparser"
 	"github.com/rs/zerolog/log"
 )
 
@@ -39,9 +39,9 @@ func getExecutor(file string) func(string) {
 				break
 			}
 			// TODO: Prepare Statement w/ compiler
-			stmnt, res := compiler.PrepareStatement(s)
-			if res == compiler.SUCCESS {
-				core.ExecuteStatement(stmnt)
+			query, err := sqlparser.Parse(s)
+			if err == nil {
+				core.ExecuteStatement(query)
 			} else {
 				log.Error().Msg(fmt.Sprintf("Unrecognized keyword at start of '%s'", s))
 			}
