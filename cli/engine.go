@@ -21,6 +21,7 @@ func completer(d prompt.Document) []prompt.Suggest {
 
 func getExecutor(file string) func(string) {
 	// TODO: Use file for database here
+	t := &core.Table{}
 	return func(s string) {
 		s = strings.TrimSpace(s)
 		s = strings.ToLower(s)
@@ -41,7 +42,8 @@ func getExecutor(file string) func(string) {
 			// TODO: Prepare Statement w/ compiler
 			query, err := sqlparser.Parse(s)
 			if err == nil {
-				core.ExecuteStatement(query)
+				core.ExecuteStatement(query, t)
+				log.Info().Msg(t.GetTableSize())
 			} else {
 				log.Error().Msg(fmt.Sprintf("Unrecognized keyword at start of '%s'", s))
 			}
